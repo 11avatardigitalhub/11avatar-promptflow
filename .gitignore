@@ -1,9 +1,0 @@
-﻿node_modules/
-.next/
-.env.local
-out/
-coverage/
-test-results/
-playwright-report/
-.vercel
-*.tsbuildinfo
