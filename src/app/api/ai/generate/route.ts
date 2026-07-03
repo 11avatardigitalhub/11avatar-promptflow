@@ -4,38 +4,34 @@ export async function POST(request: NextRequest) {
   try {
     const { prompt, model } = await request.json();
 
-    if (model === "deepseek") {
-      const apiKey = process.env.DEEPSEEK_API_KEY || "";
+    if (model === "gemini") {
+      const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
       
-      if (!apiKey) {
-        return NextResponse.json({ output: "Error: DeepSeek API key not set in Vercel environment variables." });
-      }
-
-      const res = await fetch("https://api.deepseek.com/chat/completions", {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+      
+      const res = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "deepseek-chat",
-          messages: [
-            { role: "user", content: prompt },
-          ],
-          stream: false,
+          contents: [{ parts: [{ text: prompt }] }]
         }),
       });
       
       const data = await res.json();
       
-      if (!res.ok) {
-        return NextResponse.json({ output: `DeepSeek Error ${res.status}: ${JSON.stringify(data)}` });
+      if (data.error) {
+        return NextResponse.json({ output: "Gemini Error: " + data.error.message });
       }
       
-      return NextResponse.json({ output: data.choices?.[0]?.message?.content || "No content in response" });
+      const output = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+      return NextResponse.json({ output });
     }
 
-    return NextResponse.json({ output: "Model not supported yet" });
+    if (model === "deepseek") {
+      return NextResponse.json({ output: "DeepSeek: Insufficient balance. Please use Gemini (Free)." });
+    }
+
+    return NextResponse.json({ output: "Please select a model." });
   } catch (error: any) {
     return NextResponse.json({ output: "Error: " + error.message });
   }
