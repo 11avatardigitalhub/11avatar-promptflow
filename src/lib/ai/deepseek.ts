@@ -1,4 +1,4 @@
-﻿export async function callDeepSeek(prompt: string): Promise<string> {
+export async function callDeepSeek(prompt: string): Promise<string> {
   const apiKey = process.env.DEEPSEEK_API_KEY || "";
 
   try {
