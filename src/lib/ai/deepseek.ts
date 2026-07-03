@@ -1,33 +1,32 @@
 ﻿export async function callDeepSeek(prompt: string): Promise<string> {
   const apiKey = process.env.DEEPSEEK_API_KEY || "";
-  
-  if (!apiKey) {
-    return "Error: DeepSeek API key not configured. Please add DEEPSEEK_API_KEY to environment variables.";
-  }
 
   try {
-    const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
+    const response = await fetch("https://api.deepseek.com/chat/completions", {
       method: "POST",
-      headers: { 
-        "Content-Type": "application/json", 
-        "Authorization": `Bearer ${apiKey}` 
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
         model: "deepseek-chat",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.7,
-        max_tokens: 2000,
-      }),
+        messages: [
+          { role: "system", content: "You are a helpful assistant." },
+          { role: "user", content: prompt }
+        ],
+        stream: false
+      })
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      return `Error: ${response.status} - ${errorText}`;
-    }
-
     const data = await response.json();
-    return data.choices?.[0]?.message?.content || "No response generated";
+    console.log("DEEPSEEK RESPONSE:", JSON.stringify(data));
+    
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      return data.choices[0].message.content;
+    }
+    
+    return "No response from DeepSeek. Response: " + JSON.stringify(data);
   } catch (error: any) {
-    return `Error: ${error.message}`;
+    return "Error: " + error.message;
   }
 }
