@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,6 @@
             --bg: #f8f9fa;
             --card: #ffffff;
             --gold: #d4a853;
-            --gold-light: #f0d78c;
             --black: #1a1a1a;
             --text: #1a1a1a;
             --text2: #6b7280;
@@ -19,6 +18,30 @@
             --input-bg: #f3f4f6;
             --green: #10b981;
             --red: #ef4444;
+            --shadow: 0 2px 8px rgba(0,0,0,0.04);
+            --header-text: #ffffff;
+            --badge-bg: #f3f4f6;
+            --badge-text: #6b7280;
+            --output-bg: #f3f4f6;
+            --spinner-border: #e5e7eb;
+        }
+        [data-theme="dark"] {
+            --bg: #111827;
+            --card: #1f2937;
+            --gold: #f59e0b;
+            --black: #ffffff;
+            --text: #f3f4f6;
+            --text2: #9ca3af;
+            --border: #374151;
+            --input-bg: #111827;
+            --green: #10b981;
+            --red: #ef4444;
+            --shadow: 0 2px 8px rgba(0,0,0,0.3);
+            --header-text: #ffffff;
+            --badge-bg: #374151;
+            --badge-text: #d1d5db;
+            --output-bg: #111827;
+            --spinner-border: #374151;
         }
         *{margin:0;padding:0;box-sizing:border-box}
         body{
@@ -26,6 +49,7 @@
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
+            transition: all 0.3s;
         }
         .app{max-width:520px;margin:auto;padding:16px 16px 90px}
 
@@ -35,15 +59,15 @@
             border-radius: 18px;
             padding: 22px;
             margin-bottom: 14px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            box-shadow: var(--shadow);
         }
 
         .header{
-            background: var(--black);
+            background: #1a1a1a;
             border-radius: 20px;
             padding: 24px 20px;
             margin-bottom: 18px;
-            color: #fff;
+            color: var(--header-text);
             position: relative;
             overflow: hidden;
         }
@@ -73,9 +97,28 @@
             z-index: 1;
         }
 
+        .theme-toggle{
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 200;
+            box-shadow: var(--shadow);
+        }
+
         .gold-line{
             height: 3px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+            background: linear-gradient(90deg, var(--gold), #fbbf24, var(--gold));
             border-radius: 2px;
             margin: 6px 0 16px;
         }
@@ -85,13 +128,13 @@
             font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;
         }
         .btn:active{transform:scale(0.97)}
-        .btn-pri{background:var(--black);color:#fff}
+        .btn-pri{background:#1a1a1a;color:#fff}
         .btn-pri:hover{background:#333}
-        .btn-gold{background:linear-gradient(135deg,var(--gold),#c9963e);color:#fff}
+        .btn-gold{background:linear-gradient(135deg,#d4a853,#f59e0b);color:#fff}
         .btn-gold:hover{opacity:0.9}
         .btn-green{background:var(--green);color:#fff}
-        .btn-out{background:#fff;color:var(--black);border:2px solid var(--black);font-weight:600}
-        .btn-red{background:#fff;color:var(--red);border:2px solid var(--red)}
+        .btn-out{background:transparent;color:var(--text);border:2px solid var(--border);font-weight:600}
+        .btn-red{background:transparent;color:var(--red);border:2px solid var(--red)}
         .btn:disabled{opacity:0.4;cursor:not-allowed}
         .btn-sm{width:auto;padding:8px 18px;font-size:13px;border-radius:10px}
 
@@ -100,17 +143,17 @@
             border-radius:14px;font-size:15px;margin-bottom:10px;font-family:inherit;
             background:var(--input-bg);color:var(--text);transition:all 0.2s;
         }
-        .input:focus{outline:none;border-color:var(--gold);background:#fff;box-shadow:0 0 0 4px rgba(212,168,83,0.08)}
-        .input::placeholder{color:#9ca3af}
+        .input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,168,83,0.1)}
+        .input::placeholder{color:var(--text2)}
         textarea.input{min-height:100px;resize:vertical}
-        select.input{background:var(--input-bg)}
+        select.input{background:var(--input-bg);color:var(--text)}
 
         .tabs{display:flex;gap:6px;margin-bottom:18px;background:var(--card);padding:5px;border-radius:16px;border:1px solid var(--border)}
         .tab{
             flex:1;padding:11px;text-align:center;border-radius:12px;cursor:pointer;
             font-weight:600;font-size:14px;border:none;background:transparent;color:var(--text2);
         }
-        .tab.active{background:var(--black);color:#fff}
+        .tab.active{background:#1a1a1a;color:#fff}
 
         .progress{display:flex;gap:4px;margin-bottom:18px}
         .pdot{flex:1;height:4px;border-radius:2px;background:var(--border)}
@@ -119,13 +162,13 @@
         @keyframes pulse{50%{opacity:0.3}}
 
         .step-num{
-            width:32px;height:32px;background:var(--black);color:#fff;
+            width:32px;height:32px;background:#1a1a1a;color:#fff;
             border-radius:50%;display:inline-flex;align-items:center;
             justify-content:center;font-weight:700;font-size:14px;margin-right:10px;
         }
 
         .output-box{
-            background:var(--input-bg);padding:18px;border-radius:14px;
+            background:var(--output-bg);padding:18px;border-radius:14px;
             white-space:pre-wrap;max-height:400px;overflow-y:auto;
             font-size:14px;line-height:1.8;margin-top:12px;
             border:1px solid var(--border);
@@ -134,34 +177,34 @@
         .badge{
             display:inline-block;padding:7px 16px;border-radius:20px;
             font-size:13px;font-weight:600;margin:3px;cursor:pointer;
-            background:var(--input-bg);color:var(--text2);border:1px solid var(--border);
+            background:var(--badge-bg);color:var(--badge-text);border:1px solid var(--border);
         }
         .badge:hover{border-color:var(--gold)}
-        .badge.sel{background:var(--black);color:#fff;border-color:var(--black)}
+        .badge.sel{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 
         .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
         .stat{
             background:var(--card);border:1px solid var(--border);
             border-radius:16px;padding:18px;text-align:center;
         }
-        .stat-val{font-size:30px;font-weight:700;color:var(--black)}
+        .stat-val{font-size:30px;font-weight:700;color:var(--gold)}
         .stat-lbl{font-size:11px;color:var(--text2);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
 
         .bottom-nav{
             position:fixed;bottom:12px;left:50%;transform:translateX(-50%);
             background:var(--card);display:flex;border:1px solid var(--border);
             border-radius:18px;padding:4px;z-index:100;width:calc(100% - 24px);
-            max-width:500px;box-shadow:0 4px 20px rgba(0,0,0,0.08);
+            max-width:500px;box-shadow:var(--shadow);
         }
         .nav-i{
             flex:1;text-align:center;padding:10px;cursor:pointer;
             border-radius:14px;font-size:12px;font-weight:600;color:var(--text2);
             border:none;background:none;
         }
-        .nav-i.active{background:var(--black);color:#fff}
+        .nav-i.active{background:#1a1a1a;color:#fff}
 
         .spinner{
-            width:36px;height:36px;border:3px solid var(--border);
+            width:36px;height:36px;border:3px solid var(--spinner-border);
             border-top-color:var(--gold);border-radius:50%;
             animation:spin 0.7s linear infinite;margin:18px auto;
         }
@@ -169,7 +212,7 @@
 
         .toast{
             position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
-            background:var(--black);color:#fff;padding:12px 24px;
+            background:#1a1a1a;color:#fff;padding:12px 24px;
             border-radius:25px;font-size:14px;font-weight:600;z-index:200;
             animation:slideUp 0.3s;
         }
@@ -179,26 +222,27 @@
         .center{text-align:center}
         .mt1{margin-top:8px}.mt2{margin-top:16px}.mb1{margin-bottom:8px}
         .flex{display:flex;gap:8px}.flex-btwn{display:flex;justify-content:space-between;align-items:center}
-        .label-text{font-weight:700;margin-bottom:6px;display:block;font-size:14px;color:var(--black)}
+        .label-text{font-weight:700;margin-bottom:6px;display:block;font-size:14px;color:var(--text)}
         .text2{color:var(--text2);font-size:13px}
         .logo-text{font-size:40px;margin-bottom:6px}
         .error-text{color:var(--red);text-align:center;font-size:13px;margin-top:8px}
 
         .auth-card{
             background:var(--card);border:1px solid var(--border);
-            border-radius:20px;padding:28px 22px;box-shadow:0 2px 12px rgba(0,0,0,0.04);
+            border-radius:20px;padding:28px 22px;box-shadow:var(--shadow);
         }
-        .auth-card h2{font-size:22px;font-weight:700;margin-bottom:4px}
+        .auth-card h2{font-size:22px;font-weight:700;margin-bottom:4px;color:var(--text)}
         .auth-link{color:var(--gold);font-weight:700;text-decoration:none}
     </style>
 </head>
 <body>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
     <div class="app" id="app"></div>
     <nav class="bottom-nav hidden" id="nav">
-        <button class="nav-i active" data-p="home">🏠 Home</button>
-        <button class="nav-i" data-p="prompt">⚡ Prompt</button>
-        <button class="nav-i" data-p="history">📋 History</button>
-        <button class="nav-i" data-p="profile">👤 Profile</button>
+        <button class="nav-i active" data-p="home">🏠</button>
+        <button class="nav-i" data-p="prompt">⚡</button>
+        <button class="nav-i" data-p="history">📋</button>
+        <button class="nav-i" data-p="profile">👤</button>
     </nav>
 
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -215,6 +259,19 @@
         var flow={goal:'',cat:'',aud:'',tone:'Professional',extra:''};
         var reconfirmAnalysis='',reconfirmHistory=[],reconfirmStep=0;
 
+        // Theme
+        var savedTheme=localStorage.getItem('theme')||'light';
+        document.documentElement.setAttribute('data-theme',savedTheme);
+        document.getElementById('themeBtn').textContent=savedTheme==='dark'?'☀️':'🌙';
+
+        function toggleTheme(){
+            var current=document.documentElement.getAttribute('data-theme');
+            var next=current==='dark'?'light':'dark';
+            document.documentElement.setAttribute('data-theme',next);
+            localStorage.setItem('theme',next);
+            document.getElementById('themeBtn').textContent=next==='dark'?'☀️':'🌙';
+        }
+
         function R(){
             var a=document.getElementById('app'),n=document.getElementById('nav');
             if(!U){a.innerHTML=AuthUI();n.classList.add('hidden');}
@@ -222,7 +279,7 @@
         }
 
         function AuthUI(){
-            var h='<div class="center" style="padding:50px 0 24px"><div class="logo-text">🧠</div><h1 style="font-size:28px;font-weight:800;color:var(--black)">PromptFlow AI</h1><p class="text2" style="margin-top:6px">Smart Problem Detector + Reconfirmation</p></div><div class="gold-line"></div>';
+            var h='<div class="center" style="padding:50px 0 24px"><div class="logo-text">🧠</div><h1 style="font-size:28px;font-weight:800;">PromptFlow AI</h1><p class="text2" style="margin-top:6px">Smart Problem Detector + Reconfirmation</p></div><div class="gold-line"></div>';
             h+='<div class="auth-card" id="loginBox"><h2>Welcome Back</h2><p class="text2 mb1">Sign in to continue</p><input id="le" class="input" type="email" placeholder="Email address"><input id="lp" class="input" type="password" placeholder="Password"><button onclick="L()" class="btn btn-pri">Sign In</button><p class="center mt1 text2">New here? <a href="#" onclick="TA()" class="auth-link">Create Account</a></p></div>';
             h+='<div class="auth-card hidden" id="signupBox"><h2>Create Account</h2><p class="text2 mb1">Free forever, no limits</p><input id="sn" class="input" placeholder="Full Name"><input id="se" class="input" type="email" placeholder="Email"><input id="sp" class="input" type="password" placeholder="Password (6+ chars)"><button onclick="S()" class="btn btn-gold">Create Free Account</button><p class="center mt1 text2">Already registered? <a href="#" onclick="TA()" class="auth-link">Sign In</a></p></div>';
             h+='<p id="ae" class="error-text"></p>';
@@ -230,18 +287,18 @@
         }
         function TA(){document.getElementById('loginBox').classList.toggle('hidden');document.getElementById('signupBox').classList.toggle('hidden');document.getElementById('ae').textContent='';}
         function L(){var e=document.getElementById('le').value,p=document.getElementById('lp').value;auth.signInWithEmailAndPassword(e,p).catch(function(x){E(x.message);});}
-        function S(){var n=document.getElementById('sn').value,e=document.getElementById('se').value,p=document.getElementById('sp').value;if(!n||!e||!p){E('All fields required');return;}if(p.length<6){E('Password must be 6+ characters');return;}auth.createUserWithEmailAndPassword(e,p).then(function(r){return db.collection('users').doc(r.user.uid).set({uid:r.user.uid,email:e,name:n,role:'user',createdAt:new Date().toISOString(),promptsUsed:0});}).catch(function(x){E(x.message);});}
+        function S(){var n=document.getElementById('sn').value,e=document.getElementById('se').value,p=document.getElementById('sp').value;if(!n||!e||!p){E('All fields required');return;}if(p.length<6){E('Password 6+ chars');return;}auth.createUserWithEmailAndPassword(e,p).then(function(r){return db.collection('users').doc(r.user.uid).set({uid:r.user.uid,email:e,name:n,role:'user',createdAt:new Date().toISOString(),promptsUsed:0});}).catch(function(x){E(x.message);});}
         function E(m){document.getElementById('ae').textContent=m;}
 
         function HomeUI(){
             var h='<div class="header"><div class="flex-btwn"><div><h1>Hello, '+(U.displayName||U.email.split('@')[0]||'User')+' 👋</h1><p class="sub">Your Personal AI Advisor</p></div><button class="logout-btn" onclick="auth.signOut()">Logout</button></div></div>';
             h+='<div class="stats"><div class="stat"><div class="stat-val">'+(U.promptsUsed||0)+'</div><div class="stat-lbl">Solved</div></div><div class="stat"><div class="stat-val">Free</div><div class="stat-lbl">Plan</div></div></div>';
-            h+='<div class="card center"><div style="font-size:44px;margin-bottom:8px">🚀</div><h3 style="font-size:18px;margin-bottom:6px">Ready to solve problems?</h3><p class="text2 mb1">AI understands → Confirms → Delivers</p><button onclick="SP(\'prompt\')" class="btn btn-gold">Start Smart Flow</button></div>';
+            h+='<div class="card center"><div style="font-size:44px;margin-bottom:8px">🚀</div><h3 style="font-size:18px;margin-bottom:6px;">Ready to solve problems?</h3><p class="text2 mb1">AI understands → Confirms → Delivers</p><button onclick="SP(\'prompt\')" class="btn btn-gold">Start Smart Flow</button></div>';
             return h;
         }
 
         function PromptUI(){
-            var h='<h2 style="font-size:20px;font-weight:700;margin-bottom:14px;color:var(--black)">Smart Problem Detector</h2>';
+            var h='<h2 style="font-size:20px;font-weight:700;margin-bottom:14px;">Smart Problem Detector</h2>';
             h+='<div class="tabs"><button class="tab active" onclick="ST(\'simple\')">⚡ Quick</button><button class="tab" onclick="ST(\'master\')">🔬 Master Flow</button></div>';
             h+='<div id="simplePanel"><div class="card"><textarea id="si" class="input" placeholder="Describe your problem in detail...&#10;&#10;e.g., My D2C brand sales dropped 40% in 3 months..."></textarea><button onclick="QS()" id="sB" class="btn btn-pri">Analyze & Generate</button><div id="sO" class="output-box hidden"></div></div></div>';
             h+='<div id="masterPanel" class="hidden">'+MS1()+'</div>';
@@ -286,7 +343,7 @@
         async function MS4(){
             flow.tone=document.getElementById('mt').value;flow.extra=document.getElementById('me').value;
             document.getElementById('masterPanel').innerHTML='<div class="card center"><div class="spinner"></div><p class="text2">Analyzing deeply...</p></div>';
-            reconfirmAnalysis=await G("Problem: \""+flow.goal+"\"\nCategory: "+(flow.cat||'General')+"\nAudience: "+(flow.aud||'General')+"\nTone: "+flow.tone+"\nRequirements: "+(flow.extra||'None')+"\n\nProvide a DEEP analysis (200+ words): What is the real problem? Root causes? Then ask: Is this analysis correct?");
+            reconfirmAnalysis=await G("Problem: \""+flow.goal+"\"\nCategory: "+(flow.cat||'General')+"\nAudience: "+(flow.aud||'General')+"\nTone: "+flow.tone+"\nRequirements: "+(flow.extra||'None')+"\n\nProvide a DEEP analysis (200+ words). Then ask: Is this analysis correct?");
             var h='<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot done"></div><div class="pdot active"></div></div><div class="label-text"><span class="step-num">4</span> AI Analysis - Confirm?</div><div class="output-box">'+reconfirmAnalysis+'</div><p class="label-text mt2">Is this analysis correct?</p><div class="flex"><button onclick="RC(\'yes\')" class="btn btn-green">✅ Yes, Perfect</button><button onclick="RC(\'no\')" class="btn btn-red">❌ No, Fix It</button></div></div>';
             document.getElementById('masterPanel').innerHTML=h;
         }
@@ -307,33 +364,40 @@
             document.getElementById('masterPanel').innerHTML='<div class="card"><div class="label-text"><span class="step-num">4</span> New Analysis - Correct?</div><div class="output-box">'+reconfirmAnalysis+'</div><div class="flex mt2"><button onclick="RC(\'yes\')" class="btn btn-green">✅ Yes!</button><button onclick="RC(\'no\')" class="btn btn-red">❌ Still No</button></div></div>';
         }
 
-        function HistoryUI(){return '<h2 style="font-size:20px;font-weight:700;margin-bottom:14px;color:var(--black)">History</h2><div id="hl">Loading...</div>';}
+        function HistoryUI(){return '<h2 style="font-size:20px;font-weight:700;margin-bottom:14px;">History</h2><div id="hl"><div class="card center"><div class="spinner"></div><p class="text2">Loading history...</p></div></div>';}
         async function loadHistory(){
-            if(!U)return;
-            var s=await db.collection('prompts').where('userId','==',U.uid).orderBy('createdAt','desc').limit(30).get();
             var l=document.getElementById('hl');
-            if(s.empty){l.innerHTML='<div class="card center"><p class="text2">No problems solved yet</p></div>';return;}
-            var docs=s.docs;
-            var h='';
-            for(var i=0;i<docs.length;i++){
-                var x=docs[i].data();
-                h+='<div class="card"><div class="flex-btwn"><span class="badge" style="background:var(--black);color:#fff;border:none">'+(x.type||'simple')+'</span><span class="text2">'+new Date(x.createdAt).toLocaleDateString()+'</span></div><p class="mt1" style="font-size:14px">'+(x.prompt||'').substring(0,100)+'...</p></div>';
+            if(!U){l.innerHTML='<div class="card center"><p class="text2">Please login first</p></div>';return;}
+            try{
+                var s=await db.collection('prompts').where('userId','==',U.uid).orderBy('createdAt','desc').limit(30).get();
+                var docs=s.docs;
+                if(!docs||docs.length===0){l.innerHTML='<div class="card center"><p class="text2">No problems solved yet. Start solving!</p></div>';return;}
+                var h='';
+                for(var i=0;i<docs.length;i++){
+                    var x=docs[i].data();
+                    var d=new Date(x.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+                    h+='<div class="card"><div class="flex-btwn"><span class="badge" style="background:#1a1a1a;color:#fff;border:none">'+(x.type||'simple')+'</span><span class="text2">'+d+'</span></div><p class="mt1" style="font-size:14px">'+(x.prompt||'No prompt').substring(0,120)+'...</p></div>';
+                }
+                l.innerHTML=h;
+            }catch(e){
+                l.innerHTML='<div class="card center"><p class="text2">Error loading history: '+e.message+'</p></div>';
             }
-            l.innerHTML=h;
         }
         async function saveH(p,o,t){
             if(!U)return;
-            await db.collection('prompts').add({userId:U.uid,prompt:p,output:o,type:t,createdAt:new Date().toISOString()});
-            var userRef=db.collection('users').doc(U.uid);
-            var doc=await userRef.get();
-            if(doc.exists){
-                var current=doc.data().promptsUsed||0;
-                await userRef.update({promptsUsed:current+1});
-            }
+            try{
+                await db.collection('prompts').add({userId:U.uid,prompt:p,output:o,type:t,createdAt:new Date().toISOString()});
+                var userRef=db.collection('users').doc(U.uid);
+                var doc=await userRef.get();
+                if(doc.exists){
+                    var current=doc.data().promptsUsed||0;
+                    await userRef.update({promptsUsed:current+1});
+                }
+            }catch(e){console.log('Save error:',e);}
         }
 
         function ProfileUI(){
-            var h='<h2 style="font-size:20px;font-weight:700;margin-bottom:14px;color:var(--black)">Profile</h2>';
+            var h='<h2 style="font-size:20px;font-weight:700;margin-bottom:14px;">Profile</h2>';
             h+='<div class="card"><p class="text2">Name</p><p style="font-weight:700;font-size:16px">'+(U.displayName||'N/A')+'</p></div>';
             h+='<div class="card"><p class="text2">Email</p><p style="font-weight:700;font-size:16px">'+U.email+'</p></div>';
             h+='<div class="card"><p class="text2">Plan</p><p style="font-weight:700;font-size:16px;color:var(--gold)">Free Forever</p></div>';
