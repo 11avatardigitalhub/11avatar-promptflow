@@ -14,11 +14,9 @@
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
         .app{max-width:520px;margin:auto;padding:16px;padding-bottom:80px}
-
         .card{background:var(--card);border-radius:20px;padding:20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
         .header{background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#fff;border-radius:20px;padding:22px 18px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
         .header h1{font-size:19px}.header button{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:8px 14px;border-radius:20px;cursor:pointer;font-size:13px}
-
         .btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;transition:.2s}
         .btn:active{transform:scale(.97)}
         .btn-pri{background:var(--pri);color:#fff}
@@ -27,43 +25,34 @@
         .btn-red{background:var(--red);color:#fff}
         .btn:disabled{opacity:.5;cursor:not-allowed}
         .btn-sm{width:auto;padding:8px 16px;font-size:13px;border-radius:10px}
-
         .input{width:100%;padding:14px;border:2px solid var(--border);border-radius:14px;font-size:15px;margin-bottom:10px;font-family:inherit}
         .input:focus{outline:none;border-color:var(--pri)}
         textarea.input{min-height:100px;resize:vertical}
         select.input{background:#fff}
-
         .tabs{display:flex;gap:6px;margin-bottom:16px}
         .tab{flex:1;padding:10px;text-align:center;border-radius:12px;cursor:pointer;background:var(--border);font-weight:600;font-size:14px;border:none}
         .tab.active{background:var(--pri);color:#fff}
-
         .step-num{width:30px;height:30px;background:var(--pri);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;margin-right:8px}
         .progress{display:flex;gap:6px;margin-bottom:18px}
         .pdot{flex:1;height:5px;border-radius:3px;background:var(--border);transition:.3s}
         .pdot.done{background:var(--pri)}.pdot.active{background:var(--pri);animation:pulse 1s infinite}
         @keyframes pulse{50%{opacity:.4}}
-
         .output-box{background:#F9FAFB;padding:16px;border-radius:14px;white-space:pre-wrap;max-height:380px;overflow-y:auto;font-size:14px;line-height:1.7;margin-top:12px;border:1px solid var(--border)}
         .badge{display:inline-block;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;margin:3px;cursor:pointer;border:1px solid var(--border);background:#fff}
         .badge.sel{background:var(--pri);color:#fff;border-color:var(--pri)}
-
         .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
         .stat{background:var(--card);border-radius:16px;padding:16px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
         .stat-val{font-size:26px;font-weight:700}.stat-lbl{font-size:11px;color:var(--light);margin-top:4px}
-
         .spinner{width:32px;height:32px;border:4px solid var(--border);border-top-color:var(--pri);border-radius:50%;animation:spin .7s linear infinite;margin:16px auto}
         @keyframes spin{to{transform:rotate(360deg)}}
-
         .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid var(--border);padding:6px;z-index:100}
         .nav-i{flex:1;text-align:center;padding:10px;cursor:pointer;border-radius:12px;font-size:12px;font-weight:600;color:var(--light);border:none;background:none}
         .nav-i.active{color:var(--pri);background:#EEF2FF}
-
         .hidden{display:none!important}
         .center{text-align:center}
         .mt1{margin-top:8px}.mt2{margin-top:14px}.mb1{margin-bottom:8px}
         .flex{display:flex;gap:8px}.flex-btwn{display:flex;justify-content:space-between;align-items:center}
         .emoji{font-size:40px}
-
         .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1E1B4B;color:#fff;padding:12px 22px;border-radius:25px;font-size:14px;z-index:200;animation:slideUp .3s}
         @keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(15px)}}
     </style>
@@ -83,12 +72,13 @@
 
     <script>
         // ========== CONFIG ==========
-        const GK = "AQ.Ab8RN6ITjLVzrLQqjQ_nDqCcSS-Nhr6qR2dHEefj73Ev_AwXgg";
-            authDomain:"promptflow-ai-7de15.firebaseapp.com",
-            projectId:"promptflow-ai-7de15",
-            storageBucket:"promptflow-ai-7de15.firebasestorage.app",
-            messagingSenderId:"681657211558",
-            appId:"1:681657211558:web:e25e5be6d347f3c1f2f267"
+        const FC = {
+            apiKey: "AIzaSyCVonj30X4c-WaMzqngv5EuKv3YtDzqrxk",
+            authDomain: "promptflow-ai-7de15.firebaseapp.com",
+            projectId: "promptflow-ai-7de15",
+            storageBucket: "promptflow-ai-7de15.firebasestorage.app",
+            messagingSenderId: "681657211558",
+            appId: "1:681657211558:web:e25e5be6d347f3c1f2f267"
         };
         const GK = "AQ.Ab8RN6ITjLVzrLQqjQ_nDqCcSS-Nhr6qR2dHEefj73Ev_AwXgg";
 
@@ -171,7 +161,7 @@
         async function QS(){
             const t=document.getElementById('si').value;if(!t)return;
             document.getElementById('sB').disabled=true;document.getElementById('loadD').classList.remove('hidden');
-            const a = `Aap ek AI Problem Analyzer hain. Customer ne likha: "${t}". Pehle 2-3 line mein batao ki aapne inki problem ko kaise samjha. Phir ek powerful Master Prompt banao jo inki problem solve kare. Hindi ya simple English mein jawab do. Format: ANALYSIS: [aapka analysis] PROMPT: [master prompt]`;
+            const a = "Aap ek AI Problem Analyzer hain. Customer ne likha: \"" + t + "\". Pehle 2-3 line mein batao ki aapne inki problem ko kaise samjha. Phir ek powerful Master Prompt banao jo inki problem solve kare. Hindi ya simple English mein jawab do. Format: ANALYSIS: [aapka analysis] PROMPT: [master prompt]";
             const o = await G(a);
             document.getElementById('sO').textContent=o;document.getElementById('sO').classList.remove('hidden');
             document.getElementById('loadD').classList.add('hidden');document.getElementById('sB').disabled=false;
@@ -180,115 +170,84 @@
 
         // ========== MASTER FLOW - STEP 1 ==========
         function MS1(){
-            return `<div class="card"><div class="progress"><div class="pdot active"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div></div>
-            <div class="label" style="font-weight:700;margin-bottom:8px"><span class="step-num">1</span> Apni Problem Likhiye</div>
-            <textarea id="mg" class="input" placeholder="Kuchh bhi likhiye jo dimaag mein hai... Jaise: Mere Instagram Reels par views nahi aa rahe"></textarea>
-            <button onclick="MS2()" class="btn btn-pri">AI Analysis →</button></div>`;
+            return '<div class="card"><div class="progress"><div class="pdot active"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div></div><div class="label" style="font-weight:700;margin-bottom:8px"><span class="step-num">1</span> Apni Problem Likhiye</div><textarea id="mg" class="input" placeholder="Kuchh bhi likhiye jo dimaag mein hai... Jaise: Mere Instagram Reels par views nahi aa rahe"></textarea><button onclick="MS2()" class="btn btn-pri">AI Analysis →</button></div>';
         }
         function MS2(){
             flow.goal=document.getElementById('mg').value;if(!flow.goal)return;
-            document.getElementById('masterPanel').innerHTML = `<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot active"></div><div class="pdot"></div><div class="pdot"></div></div>
-            <div style="font-weight:700;margin-bottom:8px"><span class="step-num">2</span> Category & Audience</div>
-            <p style="font-size:14px;color:var(--light);margin-bottom:10px">Select category that fits best:</p>
-            <div id="cats">${['Marketing','Content Writing','Technical','Business','Creative','Education','Social Media','Personal'].map(c=>`<span class="badge" onclick="SC('${c}')">${c}</span>`).join('')}</div>
-            <input id="ma" class="input mt2" placeholder="Target Audience? e.g., Working women 25-35">
-            <button onclick="MS3()" class="btn btn-pri mt1">Next →</button></div>`;
+            document.getElementById('masterPanel').innerHTML = '<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot active"></div><div class="pdot"></div><div class="pdot"></div></div><div style="font-weight:700;margin-bottom:8px"><span class="step-num">2</span> Category & Audience</div><p style="font-size:14px;color:var(--light);margin-bottom:10px">Select category that fits best:</p><div id="cats">'+['Marketing','Content Writing','Technical','Business','Creative','Education','Social Media','Personal'].map(function(c){return '<span class="badge" onclick="SC(\''+c+'\')">'+c+'</span>';}).join('')+'</div><input id="ma" class="input mt2" placeholder="Target Audience? e.g., Working women 25-35"><button onclick="MS3()" class="btn btn-pri mt1">Next →</button></div>';
         }
-        function SC(c){flow.cat=c;document.querySelectorAll('#cats .badge').forEach(b=>b.classList.remove('sel'));event.target.classList.add('sel');}
+        function SC(c){flow.cat=c;var b=document.querySelectorAll('#cats .badge');for(var i=0;i<b.length;i++)b[i].classList.remove('sel');event.target.classList.add('sel');}
         function MS3(){
             flow.aud=document.getElementById('ma').value;
-            document.getElementById('masterPanel').innerHTML = `<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot active"></div><div class="pdot"></div></div>
-            <div style="font-weight:700;margin-bottom:8px"><span class="step-num">3</span> Tone & Extra Details</div>
-            <select id="mt" class="input"><option>Professional</option><option>Friendly</option><option>Motivational</option><option>Formal</option><option>Humorous</option></select>
-            <textarea id="me" class="input" placeholder="Koi extra requirement? e.g., 200 words mein, actionable steps..."></textarea>
-            <button onclick="MS4()" class="btn btn-green">✨ Generate Analysis →</button></div>`;
+            document.getElementById('masterPanel').innerHTML = '<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot active"></div><div class="pdot"></div></div><div style="font-weight:700;margin-bottom:8px"><span class="step-num">3</span> Tone & Extra Details</div><select id="mt" class="input"><option>Professional</option><option>Friendly</option><option>Motivational</option><option>Formal</option><option>Humorous</option></select><textarea id="me" class="input" placeholder="Koi extra requirement? e.g., 200 words mein, actionable steps..."></textarea><button onclick="MS4()" class="btn btn-green">✨ Generate Analysis →</button></div>';
         }
 
         // ========== STEP 4: RECONFIRMATION ==========
         async function MS4(){
             flow.tone=document.getElementById('mt').value;flow.extra=document.getElementById('me').value;
-            document.getElementById('masterPanel').innerHTML = `<div class="card center"><div class="spinner"></div><p style="color:var(--light)">AI aapki problem deeply analyze kar raha hai...</p></div>`;
-            const p = `Customer Problem: "${flow.goal}". Category: ${flow.cat||'General'}. Audience: ${flow.aud||'General'}. Tone: ${flow.tone}. Extra: ${flow.extra||'None'}.
-
-Task: Deep Problem Analysis karo. Pehle 2-3 line mein simple Hindi mein batao ki tumne kya samjha - jaise "Mujhe lagta hai aapki problem ye hai...". Format exactly: ANALYSIS: [tumhara analysis]`;
-            reconfirmAnalysis = await G(p);
+            document.getElementById('masterPanel').innerHTML = '<div class="card center"><div class="spinner"></div><p style="color:var(--light)">AI aapki problem deeply analyze kar raha hai...</p></div>';
+            var promptText = "Customer Problem: \"" + flow.goal + "\". Category: " + (flow.cat||'General') + ". Audience: " + (flow.aud||'General') + ". Tone: " + flow.tone + ". Extra: " + (flow.extra||'None') + ". Task: Deep Problem Analysis karo. Pehle 2-3 line mein simple Hindi mein batao ki tumne kya samjha - jaise \"Mujhe lagta hai aapki problem ye hai...\". Format exactly: ANALYSIS: [tumhara analysis]";
+            reconfirmAnalysis = await G(promptText);
             reconfirmStep = 1;
-            document.getElementById('masterPanel').innerHTML = `<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot done"></div><div class="pdot active"></div></div>
-            <div style="font-weight:700;margin-bottom:10px"><span class="step-num">4</span> AI Ka Analysis - Kya Yeh Sahi Hai?</div>
-            <div class="output-box">${reconfirmAnalysis.replace('ANALYSIS:','')}</div>
-            <p style="font-weight:700;margin:14px 0 8px">🙋 Kya maine aapki real problem sahi samjhi?</p>
-            <div class="flex"><button onclick="RC('yes')" class="btn btn-green">✅ Haan, Bilkul Sahi!</button><button onclick="RC('no')" class="btn btn-red">❌ Nahi, Sahi Nahi Hai</button></div></div>`;
+            document.getElementById('masterPanel').innerHTML = '<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot done"></div><div class="pdot active"></div></div><div style="font-weight:700;margin-bottom:10px"><span class="step-num">4</span> AI Ka Analysis - Kya Yeh Sahi Hai?</div><div class="output-box">'+reconfirmAnalysis.replace('ANALYSIS:','')+'</div><p style="font-weight:700;margin:14px 0 8px">🙋 Kya maine aapki real problem sahi samjhi?</p><div class="flex"><button onclick="RC(\'yes\')" class="btn btn-green">✅ Haan, Bilkul Sahi!</button><button onclick="RC(\'no\')" class="btn btn-red">❌ Nahi, Sahi Nahi Hai</button></div></div>';
         }
 
         // ========== RECONFIRMATION HANDLER ==========
         async function RC(ans){
             if(ans==='yes'){
-                document.getElementById('masterPanel').innerHTML = `<div class="card center"><div class="spinner"></div><p>Master Prompt generate ho raha hai...</p></div>`;
-                const p = `Customer Problem: "${flow.goal}". Category: ${flow.cat||'General'}. Audience: ${flow.aud||'General'}. Tone: ${flow.tone}. Extra: ${flow.extra||'None'}.
-                AI Analysis: "${reconfirmAnalysis}". Customer confirmed: YES.
-                Task: Ek powerful MASTER COMMAND PROMPT banao jo customer ki exact problem solve kare. Ye prompt itna detailed aur specific ho ki kisi bhi AI tool (ChatGPT, Gemini) mein daalne par perfect jawab aaye. Prompt mein role, goal, audience, format, aur specific questions zaroor include karo. Hindi ya simple English use karo. Format: MASTER PROMPT: [prompt]`;
-                const o = await G(p);
-                document.getElementById('masterPanel').innerHTML = `<div class="card"><div class="flex-btwn mb1"><span style="font-weight:700">✅ Master Prompt Ready!</span><span class="badge sel">Confirmed</span></div>
-                <div class="output-box">${o.replace('MASTER PROMPT:','')}</div>
-                <div class="flex mt1"><button onclick="CP('${esc(o)}')" class="btn btn-sm btn-out">📋 Copy</button><button onclick="page='prompt';reconfirmStep=0;R()" class="btn btn-sm btn-pri">🔄 New Problem</button></div></div>`;
+                document.getElementById('masterPanel').innerHTML = '<div class="card center"><div class="spinner"></div><p>Master Prompt generate ho raha hai...</p></div>';
+                var promptText = "Customer Problem: \"" + flow.goal + "\". Category: " + (flow.cat||'General') + ". Audience: " + (flow.aud||'General') + ". Tone: " + flow.tone + ". Extra: " + (flow.extra||'None') + ". AI Analysis: \"" + reconfirmAnalysis + "\". Customer confirmed: YES. Task: Ek powerful MASTER COMMAND PROMPT banao jo customer ki exact problem solve kare. Ye prompt itna detailed aur specific ho ki kisi bhi AI tool (ChatGPT, Gemini) mein daalne par perfect jawab aaye. Prompt mein role, goal, audience, format, aur specific questions zaroor include karo. Hindi ya simple English use karo. Format: MASTER PROMPT: [prompt]";
+                const o = await G(promptText);
+                document.getElementById('masterPanel').innerHTML = '<div class="card"><div class="flex-btwn mb1"><span style="font-weight:700">✅ Master Prompt Ready!</span><span class="badge sel">Confirmed</span></div><div class="output-box">'+o.replace('MASTER PROMPT:','')+'</div><div class="flex mt1"><button onclick="CP(\''+esc(o)+'\')" class="btn btn-sm btn-out">📋 Copy</button><button onclick="page=\'prompt\';reconfirmStep=0;R()" class="btn btn-sm btn-pri">🔄 New Problem</button></div></div>';
                 saveH(flow.goal,o,'master');
             } else {
                 reconfirmStep=2;
-                document.getElementById('masterPanel').innerHTML = `<div class="card">
-                <div style="font-weight:700;margin-bottom:10px">❌ Aapne kaha analysis sahi nahi hai.</div>
-                <p style="color:var(--light);margin-bottom:10px">Kripya batayein ki kya galat samjha gaya? Aur kya sahi hai?</p>
-                <textarea id="rcf" class="input" placeholder="e.g., Meri problem views ki nahi, engagement ki hai..."></textarea>
-                <button onclick="RCR()" class="btn btn-pri">Dobara Analysis Karo →</button></div>`;
+                document.getElementById('masterPanel').innerHTML = '<div class="card"><div style="font-weight:700;margin-bottom:10px">❌ Aapne kaha analysis sahi nahi hai.</div><p style="color:var(--light);margin-bottom:10px">Kripya batayein ki kya galat samjha gaya? Aur kya sahi hai?</p><textarea id="rcf" class="input" placeholder="e.g., Meri problem views ki nahi, engagement ki hai..."></textarea><button onclick="RCR()" class="btn btn-pri">Dobara Analysis Karo →</button></div>';
             }
         }
         async function RCR(){
             const f=document.getElementById('rcf').value;if(!f)return;
             reconfirmHistory.push(f);
-            document.getElementById('masterPanel').innerHTML = `<div class="card center"><div class="spinner"></div><p>Dobara analysis ho raha hai...</p></div>`;
-            const p = `Customer ne kaha unki problem ye hai: "${flow.goal}". Pehle analysis tha: "${reconfirmAnalysis}". Customer ne kaha analysis galat tha. Unka feedback: "${f}". Previous feedbacks: ${JSON.stringify(reconfirmHistory)}. Category: ${flow.cat||'General'}. Audience: ${flow.aud||'General'}.
-            Task: Naye sire se analysis karo. Customer ke feedback ko dhyaan mein rakho. Simple Hindi mein 2-3 line ka naya analysis banao. Format: ANALYSIS: [naya analysis]`;
-            reconfirmAnalysis = await G(p);
+            document.getElementById('masterPanel').innerHTML = '<div class="card center"><div class="spinner"></div><p>Dobara analysis ho raha hai...</p></div>';
+            var promptText = "Customer ne kaha unki problem ye hai: \"" + flow.goal + "\". Pehle analysis tha: \"" + reconfirmAnalysis + "\". Customer ne kaha analysis galat tha. Unka feedback: \"" + f + "\". Previous feedbacks: " + JSON.stringify(reconfirmHistory) + ". Category: " + (flow.cat||'General') + ". Audience: " + (flow.aud||'General') + ". Task: Naye sire se analysis karo. Customer ke feedback ko dhyaan mein rakho. Simple Hindi mein 2-3 line ka naya analysis banao. Format: ANALYSIS: [naya analysis]";
+            reconfirmAnalysis = await G(promptText);
             reconfirmStep=1;
-            document.getElementById('masterPanel').innerHTML = `<div class="card">
-            <div style="font-weight:700;margin-bottom:10px"><span class="step-num">4</span> Naya Analysis - Ab Sahi Hai?</div>
-            <div class="output-box">${reconfirmAnalysis.replace('ANALYSIS:','')}</div>
-            <p style="font-weight:700;margin:14px 0 8px">🙋 Kya ab sahi samjha?</p>
-            <div class="flex"><button onclick="RC('yes')" class="btn btn-green">✅ Haan, Ab Sahi Hai!</button><button onclick="RC('no')" class="btn btn-red">❌ Ab Bhi Nahi</button></div></div>`;
+            document.getElementById('masterPanel').innerHTML = '<div class="card"><div style="font-weight:700;margin-bottom:10px"><span class="step-num">4</span> Naya Analysis - Ab Sahi Hai?</div><div class="output-box">'+reconfirmAnalysis.replace('ANALYSIS:','')+'</div><p style="font-weight:700;margin:14px 0 8px">🙋 Kya ab sahi samjha?</p><div class="flex"><button onclick="RC(\'yes\')" class="btn btn-green">✅ Haan, Ab Sahi Hai!</button><button onclick="RC(\'no\')" class="btn btn-red">❌ Ab Bhi Nahi</button></div></div>';
         }
 
         // ========== HISTORY ==========
-        function HistoryUI(){return `<h2 class="mb1">📁 History</h2><div id="hl">Loading...</div>`;}
+        function HistoryUI(){return '<h2 class="mb1">📁 History</h2><div id="hl">Loading...</div>';}
         async function loadHistory(){
             if(!U)return;
             const s=await db.collection('prompts').where('userId','==',U.uid).orderBy('createdAt','desc').limit(30).get();
             const l=document.getElementById('hl');
             if(s.empty){l.innerHTML='<p class="center" style="color:var(--light)">No problems solved yet</p>';return;}
-            l.innerHTML=s.docs.map(d=>{const x=d.data();return`<div class="card"><div class="flex-btwn"><span class="badge">${x.type||'simple'}</span><span style="font-size:11px;color:var(--light)">${new Date(x.createdAt).toLocaleDateString()}</span></div><p style="font-size:13px;margin-top:6px;max-height:40px;overflow:hidden">${(x.prompt||'').substring(0,100)}...</p></div>`}).join('');
+            l.innerHTML=s.docs.map(function(d){var x=d.data();return'<div class="card"><div class="flex-btwn"><span class="badge">'+(x.type||'simple')+'</span><span style="font-size:11px;color:var(--light)">'+new Date(x.createdAt).toLocaleDateString()+'</span></div><p style="font-size:13px;margin-top:6px;max-height:40px;overflow:hidden">'+(x.prompt||'').substring(0,100)+'...</p></div>';}).join('');
         }
         async function saveH(p,o,t){if(!U)return;await db.collection('prompts').add({userId:U.uid,prompt:p,output:o,type:t,createdAt:new Date().toISOString()});await db.collection('users').doc(U.uid).update({promptsUsed:firebase.firestore.FieldValue.increment(1)});}
 
         // ========== PROFILE ==========
-        function ProfileUI(){return `<h2 class="mb1">👤 Profile</h2><div class="card"><p style="color:var(--light)">Name</p><p style="font-weight:600">${U.displayName||'N/A'}</p></div><div class="card"><p style="color:var(--light)">Email</p><p style="font-weight:600">${U.email}</p></div><div class="card"><p style="color:var(--light)">Plan</p><p style="color:var(--green);font-weight:700">Free Forever</p></div><button onclick="auth.signOut()" class="btn btn-red mt2">Logout</button>`;}
+        function ProfileUI(){return '<h2 class="mb1">👤 Profile</h2><div class="card"><p style="color:var(--light)">Name</p><p style="font-weight:600">'+(U.displayName||'N/A')+'</p></div><div class="card"><p style="color:var(--light)">Email</p><p style="font-weight:600">'+U.email+'</p></div><div class="card"><p style="color:var(--light)">Plan</p><p style="color:var(--green);font-weight:700">Free Forever</p></div><button onclick="auth.signOut()" class="btn btn-red mt2">Logout</button>';}
 
         // ========== HELPERS ==========
         async function G(prompt){
             try{
-                const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GK}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
+                const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+GK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
                 const d=await r.json();
                 return d.candidates?.[0]?.content?.parts?.[0]?.text||'No response';
             }catch(e){return 'Error: '+e.message;}
         }
-        function CP(t){navigator.clipboard.writeText(t).then(()=>{const x=document.createElement('div');x.className='toast';x.textContent='Copied! ✅';document.body.appendChild(x);setTimeout(()=>x.remove(),2000);});}
+        function CP(t){navigator.clipboard.writeText(t).then(function(){var x=document.createElement('div');x.className='toast';x.textContent='Copied! ✅';document.body.appendChild(x);setTimeout(function(){x.remove();},2000);});}
         function esc(s){return (s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');}
-        function SP(p){page=p;document.querySelectorAll('.nav-i').forEach(n=>n.classList.remove('active'));document.querySelector(`[data-p="${p}"]`)?.classList.add('active');R();}
+        function SP(p){page=p;document.querySelectorAll('.nav-i').forEach(function(n){n.classList.remove('active');});var el=document.querySelector('[data-p="'+p+'"]');if(el)el.classList.add('active');R();}
 
         // ========== INIT ==========
-        auth.onAuthStateChanged(async u=>{
+        auth.onAuthStateChanged(async function(u){
             U=u;
             if(u){const d=await db.collection('users').doc(u.uid).get();if(d.exists)U={...u,...d.data()};}
             R();
         });
-        document.getElementById('nav').addEventListener('click',e=>{if(e.target.dataset.p)SP(e.target.dataset.p);});
+        document.getElementById('nav').addEventListener('click',function(e){if(e.target.dataset.p)SP(e.target.dataset.p);});
     </script>
 </body>
 </html>
