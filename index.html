@@ -1,69 +1,225 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#6366F1">
+    <meta name="theme-color" content="#7c3aed">
     <link rel="manifest" href="manifest.json">
     <title>PromptFlow AI - Smart Problem Solver</title>
     <style>
         :root {
-            --pri: #6366F1; --pri-dark: #4F46E5; --green: #10B981; --red: #EF4444;
-            --bg: #F5F3FF; --card: #fff; --text: #1E1B4B; --light: #6B7280; --border: #E5E7EB;
+            --bg: #0f0f1a;
+            --card: #1a1a2e;
+            --card2: #16213e;
+            --accent: #7c3aed;
+            --accent2: #a78bfa;
+            --green: #10b981;
+            --red: #ef4444;
+            --text: #e2e8f0;
+            --text2: #94a3b8;
+            --border: #1e293b;
+            --input: #0f0f1a;
+            --gradient: linear-gradient(135deg, #7c3aed, #a78bfa);
+            --glow: 0 0 40px rgba(124,58,237,0.15);
         }
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-        .app{max-width:520px;margin:auto;padding:16px;padding-bottom:80px}
-        .card{background:var(--card);border-radius:20px;padding:20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
-        .header{background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#fff;border-radius:20px;padding:22px 18px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
-        .header h1{font-size:19px}.header button{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:8px 14px;border-radius:20px;cursor:pointer;font-size:13px}
-        .btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;transition:.2s}
-        .btn:active{transform:scale(.97)}
-        .btn-pri{background:var(--pri);color:#fff}
-        .btn-green{background:var(--green);color:#fff}
-        .btn-out{background:#fff;color:var(--pri);border:2px solid var(--pri)}
-        .btn-red{background:var(--red);color:#fff}
-        .btn:disabled{opacity:.5;cursor:not-allowed}
-        .btn-sm{width:auto;padding:8px 16px;font-size:13px;border-radius:10px}
-        .input{width:100%;padding:14px;border:2px solid var(--border);border-radius:14px;font-size:15px;margin-bottom:10px;font-family:inherit}
-        .input:focus{outline:none;border-color:var(--pri)}
-        textarea.input{min-height:100px;resize:vertical}
-        select.input{background:#fff}
-        .tabs{display:flex;gap:6px;margin-bottom:16px}
-        .tab{flex:1;padding:10px;text-align:center;border-radius:12px;cursor:pointer;background:var(--border);font-weight:600;font-size:14px;border:none}
-        .tab.active{background:var(--pri);color:#fff}
-        .step-num{width:30px;height:30px;background:var(--pri);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;margin-right:8px}
-        .progress{display:flex;gap:6px;margin-bottom:18px}
-        .pdot{flex:1;height:5px;border-radius:3px;background:var(--border);transition:.3s}
-        .pdot.done{background:var(--pri)}.pdot.active{background:var(--pri);animation:pulse 1s infinite}
-        @keyframes pulse{50%{opacity:.4}}
-        .output-box{background:#F9FAFB;padding:16px;border-radius:14px;white-space:pre-wrap;max-height:380px;overflow-y:auto;font-size:14px;line-height:1.7;margin-top:12px;border:1px solid var(--border)}
-        .badge{display:inline-block;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;margin:3px;cursor:pointer;border:1px solid var(--border);background:#fff}
-        .badge.sel{background:var(--pri);color:#fff;border-color:var(--pri)}
-        .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-        .stat{background:var(--card);border-radius:16px;padding:16px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
-        .stat-val{font-size:26px;font-weight:700}.stat-lbl{font-size:11px;color:var(--light);margin-top:4px}
-        .spinner{width:32px;height:32px;border:4px solid var(--border);border-top-color:var(--pri);border-radius:50%;animation:spin .7s linear infinite;margin:16px auto}
+        body{
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            background-image: radial-gradient(ellipse at top, #1a1a3e 0%, #0f0f1a 60%);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .app{max-width:520px;margin:auto;padding:20px 16px 90px}
+
+        /* Cards */
+        .card{
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--glow);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+        .card:hover{border-color: #7c3aed30;}
+
+        /* Header */
+        .header{
+            background: var(--gradient);
+            border-radius: 24px;
+            padding: 28px 24px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::after{
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        .header h1{font-size:22px;font-weight:800;letter-spacing:-0.5px}
+        .header .sub{font-size:13px;opacity:0.8;margin-top:4px}
+        .header .logout-btn{
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s;
+        }
+        .header .logout-btn:hover{background:rgba(255,255,255,0.25)}
+
+        /* Buttons */
+        .btn{
+            width:100%;padding:14px 20px;border:none;border-radius:14px;
+            font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;
+            letter-spacing:-0.2px;position:relative;overflow:hidden;
+        }
+        .btn:active{transform:scale(0.97)}
+        .btn-pri{background:var(--gradient);color:#fff;box-shadow:0 4px 20px rgba(124,58,237,0.3)}
+        .btn-pri:hover{box-shadow:0 6px 30px rgba(124,58,237,0.5);transform:translateY(-1px)}
+        .btn-green{background:#10b981;color:#fff;box-shadow:0 4px 20px rgba(16,185,129,0.3)}
+        .btn-green:hover{box-shadow:0 6px 30px rgba(16,185,129,0.5);transform:translateY(-1px)}
+        .btn-out{background:transparent;color:var(--accent2);border:2px solid var(--accent);font-weight:700}
+        .btn-out:hover{background:var(--accent);color:#fff}
+        .btn-red{background:transparent;color:var(--red);border:2px solid var(--red)}
+        .btn:disabled{opacity:0.4;cursor:not-allowed;transform:none!important}
+        .btn-sm{width:auto;padding:8px 18px;font-size:13px;border-radius:10px}
+
+        /* Inputs */
+        .input{
+            width:100%;padding:14px 16px;border:2px solid var(--border);
+            border-radius:14px;font-size:15px;margin-bottom:12px;font-family:inherit;
+            background:var(--input);color:var(--text);transition:all 0.2s;
+        }
+        .input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(124,58,237,0.1)}
+        .input::placeholder{color:#475569}
+        textarea.input{min-height:110px;resize:vertical;line-height:1.6}
+        select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+
+        /* Tabs */
+        .tabs{display:flex;gap:8px;margin-bottom:20px;background:var(--card);padding:6px;border-radius:16px;border:1px solid var(--border)}
+        .tab{
+            flex:1;padding:12px;text-align:center;border-radius:12px;cursor:pointer;
+            font-weight:700;font-size:14px;border:none;background:transparent;color:var(--text2);
+            transition:all 0.3s;
+        }
+        .tab.active{background:var(--gradient);color:#fff;box-shadow:0 4px 15px rgba(124,58,237,0.3)}
+
+        /* Progress */
+        .progress{display:flex;gap:5px;margin-bottom:20px}
+        .pdot{flex:1;height:4px;border-radius:2px;background:var(--border);transition:all 0.3s}
+        .pdot.done{background:var(--accent);box-shadow:0 0 10px rgba(124,58,237,0.5)}
+        .pdot.active{background:var(--accent);animation:pulse 1s infinite}
+        @keyframes pulse{50%{opacity:0.3;box-shadow:0 0 20px rgba(124,58,237,0.8)}}
+
+        /* Step Number */
+        .step-num{
+            width:34px;height:34px;background:var(--gradient);color:#fff;
+            border-radius:50%;display:inline-flex;align-items:center;
+            justify-content:center;font-weight:800;font-size:15px;margin-right:10px;
+            box-shadow:0 4px 15px rgba(124,58,237,0.4);
+        }
+
+        /* Output */
+        .output-box{
+            background:var(--card2);padding:20px;border-radius:16px;
+            white-space:pre-wrap;max-height:450px;overflow-y:auto;
+            font-size:14px;line-height:1.8;margin-top:14px;
+            border:1px solid var(--border);color:var(--text);
+            scrollbar-width:thin;scrollbar-color:var(--accent) var(--card2);
+        }
+        .output-box::-webkit-scrollbar{width:6px}
+        .output-box::-webkit-scrollbar-track{background:var(--card2);border-radius:10px}
+        .output-box::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px}
+
+        /* Badges */
+        .badge{
+            display:inline-block;padding:8px 18px;border-radius:25px;
+            font-size:13px;font-weight:700;margin:4px;cursor:pointer;
+            background:var(--card2);color:var(--text2);border:1px solid var(--border);
+            transition:all 0.2s;
+        }
+        .badge:hover{border-color:var(--accent);color:var(--text)}
+        .badge.sel{background:var(--gradient);color:#fff;border-color:transparent;box-shadow:0 4px 15px rgba(124,58,237,0.3)}
+
+        /* Stats */
+        .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+        .stat{
+            background:var(--card);border:1px solid var(--border);
+            border-radius:18px;padding:20px;text-align:center;
+        }
+        .stat-val{font-size:32px;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .stat-lbl{font-size:12px;color:var(--text2);margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+
+        /* Bottom Nav */
+        .bottom-nav{
+            position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+            background:var(--card);display:flex;border:1px solid var(--border);
+            border-radius:20px;padding:6px;z-index:100;width:calc(100% - 32px);
+            max-width:500px;backdrop-filter:blur(20px);box-shadow:0 10px 40px rgba(0,0,0,0.5);
+        }
+        .nav-i{
+            flex:1;text-align:center;padding:12px 8px;cursor:pointer;
+            border-radius:14px;font-size:12px;font-weight:700;color:var(--text2);
+            border:none;background:none;transition:all 0.2s;
+        }
+        .nav-i.active{color:#fff;background:var(--gradient);box-shadow:0 4px 15px rgba(124,58,237,0.3)}
+
+        /* Spinner */
+        .spinner{
+            width:40px;height:40px;border:3px solid var(--border);
+            border-top-color:var(--accent);border-radius:50%;
+            animation:spin 0.8s linear infinite;margin:20px auto;
+        }
         @keyframes spin{to{transform:rotate(360deg)}}
-        .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid var(--border);padding:6px;z-index:100}
-        .nav-i{flex:1;text-align:center;padding:10px;cursor:pointer;border-radius:12px;font-size:12px;font-weight:600;color:var(--light);border:none;background:none}
-        .nav-i.active{color:var(--pri);background:#EEF2FF}
+
+        /* Toast */
+        .toast{
+            position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
+            background:var(--gradient);color:#fff;padding:14px 28px;
+            border-radius:30px;font-size:14px;font-weight:700;z-index:200;
+            animation:slideUp 0.3s;box-shadow:0 10px 30px rgba(124,58,237,0.5);
+        }
+        @keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(20px)}}
+
+        /* Utility */
         .hidden{display:none!important}
         .center{text-align:center}
-        .mt1{margin-top:8px}.mt2{margin-top:14px}.mb1{margin-bottom:8px}
-        .flex{display:flex;gap:8px}.flex-btwn{display:flex;justify-content:space-between;align-items:center}
-        .emoji{font-size:40px}
-        .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1E1B4B;color:#fff;padding:12px 22px;border-radius:25px;font-size:14px;z-index:200;animation:slideUp .3s}
-        @keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(15px)}}
+        .mt1{margin-top:10px}.mt2{margin-top:18px}.mb1{margin-bottom:10px}
+        .flex{display:flex;gap:10px}.flex-btwn{display:flex;justify-content:space-between;align-items:center}
+        .label-text{font-weight:700;margin-bottom:8px;display:block;font-size:14px;color:var(--text)}
+        .text2{color:var(--text2);font-size:13px}
+        .logo-text{font-size:32px;margin-bottom:8px}
+        .error-text{color:var(--red);text-align:center;font-size:13px;margin-top:8px}
+
+        /* Auth Card */
+        .auth-card{
+            background:var(--card);border:1px solid var(--border);
+            border-radius:24px;padding:32px 24px;box-shadow:var(--glow);
+        }
+        .auth-card h2{font-size:24px;font-weight:800;margin-bottom:6px;letter-spacing:-0.5px}
     </style>
 </head>
 <body>
     <div class="app" id="app"></div>
     <nav class="bottom-nav hidden" id="nav">
-        <button class="nav-i active" data-p="home">🏠 Home</button>
-        <button class="nav-i" data-p="prompt">🚀 Prompt</button>
-        <button class="nav-i" data-p="history">📁 History</button>
-        <button class="nav-i" data-p="profile">👤 Profile</button>
+        <button class="nav-i active" data-p="home">🏠</button>
+        <button class="nav-i" data-p="prompt">⚡</button>
+        <button class="nav-i" data-p="history">📋</button>
+        <button class="nav-i" data-p="profile">👤</button>
     </nav>
 
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -71,193 +227,144 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // ========== CONFIG ==========
-                // ========== CONFIG ==========
-        const FC = {
-            apiKey: "AIzaSyCVonj30X4c-WaMzqngv5EuKv3YtDzqrxk",
-            authDomain: "promptflow-ai-7de15.firebaseapp.com",
-            projectId: "promptflow-ai-7de15",
-            storageBucket: "promptflow-ai-7de15.firebasestorage.app",
-            messagingSenderId: "681657211558",
-            appId: "1:681657211558:web:e25e5be6d347f3c1f2f267"
-        };
-        const GK = "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";
+        var FC={apiKey:"AIzaSyCVonj30X4c-WaMzqngv5EuKv3YtDzqrxk",authDomain:"promptflow-ai-7de15.firebaseapp.com",projectId:"promptflow-ai-7de15",storageBucket:"promptflow-ai-7de15.firebasestorage.app",messagingSenderId:"681657211558",appId:"1:681657211558:web:e25e5be6d347f3c1f2f267"};
+        var GK="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";
+        var GM="llama-3.3-70b-versatile";
         firebase.initializeApp(FC);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        var auth=firebase.auth(),db=firebase.firestore();
+        var U=null,page='home';
+        var flow={goal:'',cat:'',aud:'',tone:'Professional',extra:''};
+        var reconfirmAnalysis='',reconfirmHistory=[],reconfirmStep=0;
 
-        // ========== STATE ==========
-        let U = null, page = 'home';
-        let flow = {goal:'',cat:'',aud:'',tone:'Professional',extra:''};
-        let reconfirmStep = 0, reconfirmAnalysis = '', reconfirmHistory = [];
-
-        // ========== RENDER ==========
         function R(){
-            const a = document.getElementById('app');
-            if(!U){ a.innerHTML = AuthUI(); document.getElementById('nav').classList.add('hidden'); }
-            else {
-                document.getElementById('nav').classList.remove('hidden');
-                if(page==='home') a.innerHTML = HomeUI();
-                else if(page==='prompt') a.innerHTML = PromptUI();
-                else if(page==='history'){ a.innerHTML = HistoryUI(); loadHistory(); }
-                else if(page==='profile') a.innerHTML = ProfileUI();
-            }
+            var a=document.getElementById('app'),n=document.getElementById('nav');
+            if(!U){a.innerHTML=AuthUI();n.classList.add('hidden');}
+            else{n.classList.remove('hidden');if(page==='home')a.innerHTML=HomeUI();else if(page==='prompt')a.innerHTML=PromptUI();else if(page==='history'){a.innerHTML=HistoryUI();loadHistory();}else if(page==='profile')a.innerHTML=ProfileUI();}
         }
 
-        // ========== AUTH ==========
         function AuthUI(){
-            return `
-            <div class="center" style="padding:50px 10px 20px"><div class="emoji">🧠</div><h1>PromptFlow AI</h1><p style="color:var(--light)">Smart Problem Detector + Reconfirmation System</p></div>
-            <div class="card" id="loginBox">
-                <h3 class="mb1">🔐 Login</h3>
-                <input id="le" class="input" type="email" placeholder="Email">
-                <input id="lp" class="input" type="password" placeholder="Password">
-                <button onclick="L()" class="btn btn-pri">Login</button>
-                <p class="center mt1" style="font-size:13px;color:var(--light)">New? <a href="#" onclick="TA()" style="color:var(--pri)">Sign Up</a></p>
-            </div>
-            <div class="card hidden" id="signupBox">
-                <h3 class="mb1">✨ Sign Up</h3>
-                <input id="sn" class="input" placeholder="Full Name">
-                <input id="se" class="input" type="email" placeholder="Email">
-                <input id="sp" class="input" type="password" placeholder="Password (6+)">
-                <button onclick="S()" class="btn btn-green">Create Free Account</button>
-                <p class="center mt1" style="font-size:13px;color:var(--light)">Have account? <a href="#" onclick="TA()" style="color:var(--pri)">Login</a></p>
-            </div>
-            <p id="ae" style="color:var(--red);text-align:center;font-size:13px"></p>`;
+            var h='<div class="center" style="padding:60px 0 30px"><div class="logo-text">🧠</div><h1 style="font-size:32px;font-weight:800;letter-spacing:-1px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">PromptFlow AI</h1><p class="text2" style="margin-top:8px">Smart Problem Detector + Reconfirmation</p></div>';
+            h+='<div class="auth-card" id="loginBox"><h2>Welcome Back</h2><p class="text2 mb1">Login to continue</p><input id="le" class="input" type="email" placeholder="Email address"><input id="lp" class="input" type="password" placeholder="Password"><button onclick="L()" class="btn btn-pri">Sign In</button><p class="center mt1 text2">New here? <a href="#" onclick="TA()" style="color:var(--accent2);font-weight:700">Create Account</a></p></div>';
+            h+='<div class="auth-card hidden" id="signupBox"><h2>Create Account</h2><p class="text2 mb1">Free forever</p><input id="sn" class="input" placeholder="Full Name"><input id="se" class="input" type="email" placeholder="Email"><input id="sp" class="input" type="password" placeholder="Password (6+ characters)"><button onclick="S()" class="btn btn-green">Create Free Account</button><p class="center mt1 text2">Already registered? <a href="#" onclick="TA()" style="color:var(--accent2);font-weight:700">Sign In</a></p></div>';
+            h+='<p id="ae" class="error-text"></p>';
+            return h;
         }
         function TA(){document.getElementById('loginBox').classList.toggle('hidden');document.getElementById('signupBox').classList.toggle('hidden');document.getElementById('ae').textContent='';}
-        function L(){const e=document.getElementById('le').value,p=document.getElementById('lp').value;auth.signInWithEmailAndPassword(e,p).catch(x=>E(x.message));}
-        function S(){const n=document.getElementById('sn').value,e=document.getElementById('se').value,p=document.getElementById('sp').value;if(!n||!e||!p)return E('All fields required');if(p.length<6)return E('Password 6+ chars');auth.createUserWithEmailAndPassword(e,p).then(r=>db.collection('users').doc(r.user.uid).set({uid:r.user.uid,email:e,name:n,role:'user',createdAt:new Date().toISOString(),promptsUsed:0})).catch(x=>E(x.message));}
+        function L(){var e=document.getElementById('le').value,p=document.getElementById('lp').value;auth.signInWithEmailAndPassword(e,p).catch(function(x){E(x.message);});}
+        function S(){var n=document.getElementById('sn').value,e=document.getElementById('se').value,p=document.getElementById('sp').value;if(!n||!e||!p){E('All fields required');return;}if(p.length<6){E('Password must be 6+ characters');return;}auth.createUserWithEmailAndPassword(e,p).then(function(r){return db.collection('users').doc(r.user.uid).set({uid:r.user.uid,email:e,name:n,role:'user',createdAt:new Date().toISOString(),promptsUsed:0});}).catch(function(x){E(x.message);});}
         function E(m){document.getElementById('ae').textContent=m;}
 
-        // ========== HOME ==========
         function HomeUI(){
-            return `
-            <div class="header"><div><h1>👋 ${U.displayName||U.email?.split('@')[0]||'User'}</h1><p style="font-size:12px;opacity:.8">Personal AI Advisor</p></div><button onclick="auth.signOut()">Logout</button></div>
-            <div class="stats"><div class="stat"><div class="stat-val" style="color:var(--pri)">${U.promptsUsed||0}</div><div class="stat-lbl">Problems Solved</div></div><div class="stat"><div class="stat-val" style="color:var(--green)">Free</div><div class="stat-lbl">Plan</div></div></div>
-            <div class="card center mt2"><h3>Ready to solve a problem?</h3><p style="color:var(--light);margin:8px 0">AI pehle samjhega, phir confirm karega, tab jawab dega</p><button onclick="SP('prompt')" class="btn btn-pri">🚀 Start Smart Flow →</button></div>`;
+            var h='<div class="header"><div class="flex-btwn"><div><h1>Hello, '+(U.displayName||U.email.split('@')[0]||'User')+' 👋</h1><p class="sub">Your Personal AI Advisor</p></div><button class="logout-btn" onclick="auth.signOut()">Logout</button></div></div>';
+            h+='<div class="stats"><div class="stat"><div class="stat-val">'+(U.promptsUsed||0)+'</div><div class="stat-lbl">Solved</div></div><div class="stat"><div class="stat-val">Free</div><div class="stat-lbl">Plan</div></div></div>';
+            h+='<div class="card center"><div style="font-size:48px;margin-bottom:10px">🚀</div><h3 style="font-size:18px;margin-bottom:8px">Ready to solve problems?</h3><p class="text2 mb1">AI understands → Confirms → Delivers</p><button onclick="SP(\'prompt\')" class="btn btn-pri">Start Smart Flow</button></div>';
+            return h;
         }
 
-        // ========== PROMPT PAGE ==========
         function PromptUI(){
-            return `
-            <h2 class="mb1">🧠 Smart Problem Detector</h2>
-            <div class="tabs"><button class="tab active" onclick="ST('simple')">Quick</button><button class="tab" onclick="ST('master')">Master Flow</button></div>
-            <div id="simplePanel">
-                <div class="card"><textarea id="si" class="input" placeholder="What problem are you facing? e.g., Mere Instagram Reels par views nahi aa rahe..."></textarea><button onclick="QS()" id="sB" class="btn btn-pri">Analyze & Generate →</button><div id="sO" class="output-box hidden"></div></div>
-            </div>
-            <div id="masterPanel" class="hidden">${MS1()}</div>
-            <div id="loadD" class="center hidden"><div class="spinner"></div><p style="color:var(--light)">AI is analyzing deeply...</p></div>`;
+            var h='<h2 style="font-size:20px;font-weight:800;margin-bottom:16px">Smart Problem Detector</h2>';
+            h+='<div class="tabs"><button class="tab active" onclick="ST(\'simple\')">⚡ Quick</button><button class="tab" onclick="ST(\'master\')">🔬 Master Flow</button></div>';
+            h+='<div id="simplePanel"><div class="card"><textarea id="si" class="input" placeholder="Describe your problem in detail...&#10;&#10;e.g., My D2C brand sales dropped 40% in 3 months. Need complete turnaround strategy..."></textarea><button onclick="QS()" id="sB" class="btn btn-pri">Analyze & Generate</button><div id="sO" class="output-box hidden"></div></div></div>';
+            h+='<div id="masterPanel" class="hidden">'+MS1()+'</div>';
+            h+='<div id="loadD" class="center hidden"><div class="spinner"></div><p class="text2">Deep analysis in progress...</p></div>';
+            return h;
         }
         function ST(t){
-            document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
             event.target.classList.add('active');
             document.getElementById('simplePanel').classList.toggle('hidden',t!=='simple');
             document.getElementById('masterPanel').classList.toggle('hidden',t!=='master');
             reconfirmStep=0;reconfirmAnalysis='';reconfirmHistory=[];
         }
 
-        // ========== SIMPLE ==========
         async function QS(){
-            const t=document.getElementById('si').value;if(!t)return;
+            var t=document.getElementById('si').value;if(!t)return;
             document.getElementById('sB').disabled=true;document.getElementById('loadD').classList.remove('hidden');
-            const a = "Aap ek AI Problem Analyzer hain. Customer ne likha: \"" + t + "\". Pehle 2-3 line mein batao ki aapne inki problem ko kaise samjha. Phir ek powerful Master Prompt banao jo inki problem solve kare. Hindi ya simple English mein jawab do. Format: ANALYSIS: [aapka analysis] PROMPT: [master prompt]";
-            const o = await G(a);
-            document.getElementById('sO').textContent=o;document.getElementById('sO').classList.remove('hidden');
+            var out=await G("You are an expert consultant. Provide a DETAILED, structured solution for: "+t+"\nInclude: analysis, step-by-step plan, specific advice, and actionable next steps. Be thorough (500+ words).");
+            var el=document.getElementById('sO');el.textContent=out;el.classList.remove('hidden');
             document.getElementById('loadD').classList.add('hidden');document.getElementById('sB').disabled=false;
-            saveH(t,o,'simple');
+            saveH(t,out,'simple');
         }
 
-        // ========== MASTER FLOW - STEP 1 ==========
         function MS1(){
-            return '<div class="card"><div class="progress"><div class="pdot active"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div></div><div class="label" style="font-weight:700;margin-bottom:8px"><span class="step-num">1</span> Apni Problem Likhiye</div><textarea id="mg" class="input" placeholder="Kuchh bhi likhiye jo dimaag mein hai... Jaise: Mere Instagram Reels par views nahi aa rahe"></textarea><button onclick="MS2()" class="btn btn-pri">AI Analysis →</button></div>';
+            return '<div class="card"><div class="progress"><div class="pdot active"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div></div><div class="label-text"><span class="step-num">1</span> Describe Your Problem</div><textarea id="mg" class="input" placeholder="Be as detailed as possible... The more context, the better the AI analysis."></textarea><button onclick="MS2()" class="btn btn-pri mt1">AI Analysis →</button></div>';
         }
         function MS2(){
             flow.goal=document.getElementById('mg').value;if(!flow.goal)return;
-            document.getElementById('masterPanel').innerHTML = '<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot active"></div><div class="pdot"></div><div class="pdot"></div></div><div style="font-weight:700;margin-bottom:8px"><span class="step-num">2</span> Category & Audience</div><p style="font-size:14px;color:var(--light);margin-bottom:10px">Select category that fits best:</p><div id="cats">'+['Marketing','Content Writing','Technical','Business','Creative','Education','Social Media','Personal'].map(function(c){return '<span class="badge" onclick="SC(\''+c+'\')">'+c+'</span>';}).join('')+'</div><input id="ma" class="input mt2" placeholder="Target Audience? e.g., Working women 25-35"><button onclick="MS3()" class="btn btn-pri mt1">Next →</button></div>';
+            var h='<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot active"></div><div class="pdot"></div><div class="pdot"></div></div><div class="label-text"><span class="step-num">2</span> Category & Audience</div><p class="text2 mb1">Select best category:</p><div id="cats">';
+            ['Marketing','Content','Tech','Business','Creative','Education','Social Media','Personal'].forEach(function(c){h+='<span class="badge" onclick="SC(\''+c+'\')">'+c+'</span>';});
+            h+='</div><input id="ma" class="input mt2" placeholder="Target Audience? e.g., Working professionals 25-40, Tier 1 cities"><button onclick="MS3()" class="btn btn-pri mt1">Next →</button></div>';
+            document.getElementById('masterPanel').innerHTML=h;
         }
-        function SC(c){flow.cat=c;var b=document.querySelectorAll('#cats .badge');for(var i=0;i<b.length;i++)b[i].classList.remove('sel');event.target.classList.add('sel');}
+        function SC(c){flow.cat=c;document.querySelectorAll('#cats .badge').forEach(function(b){b.classList.remove('sel');});event.target.classList.add('sel');}
         function MS3(){
             flow.aud=document.getElementById('ma').value;
-            document.getElementById('masterPanel').innerHTML = '<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot active"></div><div class="pdot"></div></div><div style="font-weight:700;margin-bottom:8px"><span class="step-num">3</span> Tone & Extra Details</div><select id="mt" class="input"><option>Professional</option><option>Friendly</option><option>Motivational</option><option>Formal</option><option>Humorous</option></select><textarea id="me" class="input" placeholder="Koi extra requirement? e.g., 200 words mein, actionable steps..."></textarea><button onclick="MS4()" class="btn btn-green">✨ Generate Analysis →</button></div>';
+            var h='<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot active"></div><div class="pdot"></div></div><div class="label-text"><span class="step-num">3</span> Tone & Requirements</div><select id="mt" class="input"><option>Professional</option><option>Friendly</option><option>Inspirational</option><option>Formal</option></select><textarea id="me" class="input mt1" placeholder="Extra requirements? e.g., Include SWOT analysis, 90-day plan..."></textarea><button onclick="MS4()" class="btn btn-green mt1">✨ Generate Analysis</button></div>';
+            document.getElementById('masterPanel').innerHTML=h;
         }
-
-        // ========== STEP 4: RECONFIRMATION ==========
         async function MS4(){
             flow.tone=document.getElementById('mt').value;flow.extra=document.getElementById('me').value;
-            document.getElementById('masterPanel').innerHTML = '<div class="card center"><div class="spinner"></div><p style="color:var(--light)">AI aapki problem deeply analyze kar raha hai...</p></div>';
-            var promptText = "Customer Problem: \"" + flow.goal + "\". Category: " + (flow.cat||'General') + ". Audience: " + (flow.aud||'General') + ". Tone: " + flow.tone + ". Extra: " + (flow.extra||'None') + ". Task: Deep Problem Analysis karo. Pehle 2-3 line mein simple Hindi mein batao ki tumne kya samjha - jaise \"Mujhe lagta hai aapki problem ye hai...\". Format exactly: ANALYSIS: [tumhara analysis]";
-            reconfirmAnalysis = await G(promptText);
-            reconfirmStep = 1;
-            document.getElementById('masterPanel').innerHTML = '<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot done"></div><div class="pdot active"></div></div><div style="font-weight:700;margin-bottom:10px"><span class="step-num">4</span> AI Ka Analysis - Kya Yeh Sahi Hai?</div><div class="output-box">'+reconfirmAnalysis.replace('ANALYSIS:','')+'</div><p style="font-weight:700;margin:14px 0 8px">🙋 Kya maine aapki real problem sahi samjhi?</p><div class="flex"><button onclick="RC(\'yes\')" class="btn btn-green">✅ Haan, Bilkul Sahi!</button><button onclick="RC(\'no\')" class="btn btn-red">❌ Nahi, Sahi Nahi Hai</button></div></div>';
+            document.getElementById('masterPanel').innerHTML='<div class="card center"><div class="spinner"></div><p class="text2">Analyzing deeply...</p></div>';
+            reconfirmAnalysis=await G("Problem: \""+flow.goal+"\"\nCategory: "+(flow.cat||'General')+"\nAudience: "+(flow.aud||'General')+"\nTone: "+flow.tone+"\nRequirements: "+(flow.extra||'None')+"\n\nProvide a DEEP analysis (200+ words): What is the real problem? Root causes? Hidden factors? Emotional context? Then ask: Is this analysis correct?");
+            var h='<div class="card"><div class="progress"><div class="pdot done"></div><div class="pdot done"></div><div class="pdot done"></div><div class="pdot active"></div></div><div class="label-text"><span class="step-num">4</span> AI Analysis - Confirm?</div><div class="output-box">'+reconfirmAnalysis+'</div><p class="label-text mt2">Is this analysis correct?</p><div class="flex"><button onclick="RC(\'yes\')" class="btn btn-green">✅ Yes, Perfect</button><button onclick="RC(\'no\')" class="btn btn-red">❌ No, Fix It</button></div></div>';
+            document.getElementById('masterPanel').innerHTML=h;
         }
-
-        // ========== RECONFIRMATION HANDLER ==========
         async function RC(ans){
             if(ans==='yes'){
-                document.getElementById('masterPanel').innerHTML = '<div class="card center"><div class="spinner"></div><p>Master Prompt generate ho raha hai...</p></div>';
-                var promptText = "Customer Problem: \"" + flow.goal + "\". Category: " + (flow.cat||'General') + ". Audience: " + (flow.aud||'General') + ". Tone: " + flow.tone + ". Extra: " + (flow.extra||'None') + ". AI Analysis: \"" + reconfirmAnalysis + "\". Customer confirmed: YES. Task: Ek powerful MASTER COMMAND PROMPT banao jo customer ki exact problem solve kare. Ye prompt itna detailed aur specific ho ki kisi bhi AI tool (ChatGPT, Gemini) mein daalne par perfect jawab aaye. Prompt mein role, goal, audience, format, aur specific questions zaroor include karo. Hindi ya simple English use karo. Format: MASTER PROMPT: [prompt]";
-                const o = await G(promptText);
-                document.getElementById('masterPanel').innerHTML = '<div class="card"><div class="flex-btwn mb1"><span style="font-weight:700">✅ Master Prompt Ready!</span><span class="badge sel">Confirmed</span></div><div class="output-box">'+o.replace('MASTER PROMPT:','')+'</div><div class="flex mt1"><button onclick="CP(\''+esc(o)+'\')" class="btn btn-sm btn-out">📋 Copy</button><button onclick="page=\'prompt\';reconfirmStep=0;R()" class="btn btn-sm btn-pri">🔄 New Problem</button></div></div>';
-                saveH(flow.goal,o,'master');
-            } else {
-                reconfirmStep=2;
-                document.getElementById('masterPanel').innerHTML = '<div class="card"><div style="font-weight:700;margin-bottom:10px">❌ Aapne kaha analysis sahi nahi hai.</div><p style="color:var(--light);margin-bottom:10px">Kripya batayein ki kya galat samjha gaya? Aur kya sahi hai?</p><textarea id="rcf" class="input" placeholder="e.g., Meri problem views ki nahi, engagement ki hai..."></textarea><button onclick="RCR()" class="btn btn-pri">Dobara Analysis Karo →</button></div>';
+                document.getElementById('masterPanel').innerHTML='<div class="card center"><div class="spinner"></div><p class="text2">Building Master Prompt...</p></div>';
+                var o=await G("Create an EXPERT-LEVEL MASTER PROMPT (300-500 words) for:\nProblem: \""+flow.goal+"\"\nCategory: "+(flow.cat||'General')+"\nAudience: "+(flow.aud||'General')+"\nTone: "+flow.tone+"\nAnalysis: \""+reconfirmAnalysis+"\"\n\nInclude: expert role, clear context, numbered deliverables, format requirements, constraints, success criteria. Ready to paste into any AI tool.");
+                var h='<div class="card"><div class="flex-btwn mb1"><span class="label-text">✅ Master Prompt Ready</span><span class="badge sel">Confirmed</span></div><div class="output-box" id="finalOutput">'+o+'</div><div class="flex mt2"><button onclick="CP()" class="btn btn-out">📋 Copy</button><button onclick="page=\'prompt\';reconfirmStep=0;R()" class="btn btn-pri">🔄 New Problem</button></div></div>';
+                document.getElementById('masterPanel').innerHTML=h;saveH(flow.goal,o,'master');
+            }else{
+                document.getElementById('masterPanel').innerHTML='<div class="card"><div class="label-text">What was wrong?</div><textarea id="rcf" class="input" placeholder="e.g., Real problem is lead quality, not pricing..."></textarea><button onclick="RCR()" class="btn btn-pri mt1">Re-analyze</button></div>';
             }
         }
         async function RCR(){
-            const f=document.getElementById('rcf').value;if(!f)return;
-            reconfirmHistory.push(f);
-            document.getElementById('masterPanel').innerHTML = '<div class="card center"><div class="spinner"></div><p>Dobara analysis ho raha hai...</p></div>';
-            var promptText = "Customer ne kaha unki problem ye hai: \"" + flow.goal + "\". Pehle analysis tha: \"" + reconfirmAnalysis + "\". Customer ne kaha analysis galat tha. Unka feedback: \"" + f + "\". Previous feedbacks: " + JSON.stringify(reconfirmHistory) + ". Category: " + (flow.cat||'General') + ". Audience: " + (flow.aud||'General') + ". Task: Naye sire se analysis karo. Customer ke feedback ko dhyaan mein rakho. Simple Hindi mein 2-3 line ka naya analysis banao. Format: ANALYSIS: [naya analysis]";
-            reconfirmAnalysis = await G(promptText);
-            reconfirmStep=1;
-            document.getElementById('masterPanel').innerHTML = '<div class="card"><div style="font-weight:700;margin-bottom:10px"><span class="step-num">4</span> Naya Analysis - Ab Sahi Hai?</div><div class="output-box">'+reconfirmAnalysis.replace('ANALYSIS:','')+'</div><p style="font-weight:700;margin:14px 0 8px">🙋 Kya ab sahi samjha?</p><div class="flex"><button onclick="RC(\'yes\')" class="btn btn-green">✅ Haan, Ab Sahi Hai!</button><button onclick="RC(\'no\')" class="btn btn-red">❌ Ab Bhi Nahi</button></div></div>';
+            var f=document.getElementById('rcf').value;if(!f)return;reconfirmHistory.push(f);
+            document.getElementById('masterPanel').innerHTML='<div class="card center"><div class="spinner"></div><p class="text2">Re-analyzing...</p></div>';
+            reconfirmAnalysis=await G("Original: \""+flow.goal+"\"\nOld Analysis: \""+reconfirmAnalysis+"\"\nFeedback: \""+f+"\"\nAll feedback: "+JSON.stringify(reconfirmHistory)+"\n\nProvide FRESH deep analysis incorporating all feedback.");
+            document.getElementById('masterPanel').innerHTML='<div class="card"><div class="label-text"><span class="step-num">4</span> New Analysis - Correct?</div><div class="output-box">'+reconfirmAnalysis+'</div><div class="flex mt2"><button onclick="RC(\'yes\')" class="btn btn-green">✅ Yes!</button><button onclick="RC(\'no\')" class="btn btn-red">❌ Still No</button></div></div>';
         }
 
-        // ========== HISTORY ==========
-        function HistoryUI(){return '<h2 class="mb1">📁 History</h2><div id="hl">Loading...</div>';}
+        function HistoryUI(){return '<h2 style="font-size:20px;font-weight:800;margin-bottom:16px">History</h2><div id="hl">Loading...</div>';}
         async function loadHistory(){
-            if(!U)return;
-            const s=await db.collection('prompts').where('userId','==',U.uid).orderBy('createdAt','desc').limit(30).get();
-            const l=document.getElementById('hl');
-            if(s.empty){l.innerHTML='<p class="center" style="color:var(--light)">No problems solved yet</p>';return;}
-            l.innerHTML=s.docs.map(function(d){var x=d.data();return'<div class="card"><div class="flex-btwn"><span class="badge">'+(x.type||'simple')+'</span><span style="font-size:11px;color:var(--light)">'+new Date(x.createdAt).toLocaleDateString()+'</span></div><p style="font-size:13px;margin-top:6px;max-height:40px;overflow:hidden">'+(x.prompt||'').substring(0,100)+'...</p></div>';}).join('');
+            if(!U)return;var s=await db.collection('prompts').where('userId','==',U.uid).orderBy('createdAt','desc').limit(30).get();
+            var l=document.getElementById('hl');
+            if(s.empty){l.innerHTML='<div class="card center"><p class="text2">No problems solved yet</p></div>';return;}
+            l.innerHTML='';s.forEach(function(d){var x=d.data(),div=document.createElement('div');div.className='card';div.innerHTML='<div class="flex-btwn"><span class="badge">'+(x.type||'simple')+'</span><span class="text2">'+new Date(x.createdAt).toLocaleDateString()+'</span></div><p class="mt1" style="font-size:14px">'+(x.prompt||'').substring(0,120)+'...</p>';l.appendChild(div);});
         }
         async function saveH(p,o,t){if(!U)return;await db.collection('prompts').add({userId:U.uid,prompt:p,output:o,type:t,createdAt:new Date().toISOString()});await db.collection('users').doc(U.uid).update({promptsUsed:firebase.firestore.FieldValue.increment(1)});}
 
-        // ========== PROFILE ==========
-        function ProfileUI(){return '<h2 class="mb1">👤 Profile</h2><div class="card"><p style="color:var(--light)">Name</p><p style="font-weight:600">'+(U.displayName||'N/A')+'</p></div><div class="card"><p style="color:var(--light)">Email</p><p style="font-weight:600">'+U.email+'</p></div><div class="card"><p style="color:var(--light)">Plan</p><p style="color:var(--green);font-weight:700">Free Forever</p></div><button onclick="auth.signOut()" class="btn btn-red mt2">Logout</button>';}
-
-        // ========== HELPERS ==========
-        async function G(prompt){
-            try{
-                const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
-                    method:'POST',
-                    headers:{
-                        'Content-Type':'application/json',
-                        'Authorization':'Bearer '+GK
-                    },
-                    body:JSON.stringify({
-                        model:'llama-3.3-70b-versatile',
-                        messages:[{role:'user',content:prompt}],
-                        temperature:0.7,
-                        max_tokens:2000
-                    })
-                });
-                const d=await r.json();
-                return d.choices?.[0]?.message?.content||'No response';
-            }catch(e){return 'Error: '+e.message;}
+        function ProfileUI(){
+            var h='<h2 style="font-size:20px;font-weight:800;margin-bottom:16px">Profile</h2>';
+            h+='<div class="card"><p class="text2">Name</p><p style="font-weight:700;font-size:16px">'+(U.displayName||'N/A')+'</p></div>';
+            h+='<div class="card"><p class="text2">Email</p><p style="font-weight:700;font-size:16px">'+U.email+'</p></div>';
+            h+='<div class="card"><p class="text2">Plan</p><p style="font-weight:700;font-size:16px;color:var(--green)">Free Forever</p></div>';
+            h+='<button onclick="auth.signOut()" class="btn btn-red mt2">Sign Out</button>';
+            return h;
         }
-        function CP(t){navigator.clipboard.writeText(t).then(function(){var x=document.createElement('div');x.className='toast';x.textContent='Copied! ✅';document.body.appendChild(x);setTimeout(function(){x.remove();},2000);});}
-        function esc(s){return (s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');}
-        function SP(p){page=p;document.querySelectorAll('.nav-i').forEach(function(n){n.classList.remove('active');});var el=document.querySelector('[data-p="'+p+'"]');if(el)el.classList.add('active');R();}
 
-        // ========== INIT ==========
+        async function G(p){
+            try{
+                var r=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+GK},body:JSON.stringify({model:GM,messages:[{role:'user',content:p}],temperature:0.8,max_tokens:4000})});
+                var d=await r.json();
+                if(d.error)return 'Error: '+d.error.message;
+                return d.choices?.[0]?.message?.content||'No response';
+            }catch(e){return 'Network Error: '+e.message;}
+        }
+
+        function CP(){
+            var t=document.getElementById('finalOutput')?.textContent||document.querySelector('.output-box')?.textContent||'';
+            navigator.clipboard.writeText(t).then(function(){var x=document.createElement('div');x.className='toast';x.textContent='Copied! ✅';document.body.appendChild(x);setTimeout(function(){x.remove();},2000);});
+        }
+
+        function SP(p){
+            page=p;document.querySelectorAll('.nav-i').forEach(function(n){n.classList.remove('active');});
+            var el=document.querySelector('[data-p="'+p+'"]');if(el)el.classList.add('active');R();
+        }
+
         auth.onAuthStateChanged(async function(u){
-            U=u;
-            if(u){const d=await db.collection('users').doc(u.uid).get();if(d.exists)U={...u,...d.data()};}
-            R();
+            U=u;if(u){var d=await db.collection('users').doc(u.uid).get();if(d.exists){var du=d.data();U.displayName=du.name;U.promptsUsed=du.promptsUsed;}}R();
         });
         document.getElementById('nav').addEventListener('click',function(e){if(e.target.dataset.p)SP(e.target.dataset.p);});
     </script>
